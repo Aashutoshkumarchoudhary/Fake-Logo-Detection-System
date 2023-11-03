@@ -1,0 +1,22 @@
+import cv2
+import numpy as np
+from keras.models import load_model
+
+# Load the pre-trained model
+model = load_model('fake_logo_detection_model.h5')
+
+# Load the image to be analyzed
+image = cv2.imread('image.jpg')
+
+# Preprocess the image
+image = cv2.resize(image, (224, 224))
+image = np.array(image, dtype='float32') / 255.0
+
+# Make a prediction
+prediction = model.predict(np.array([image]))
+
+# Check if the logo is fake
+if prediction[0][0] > 0.5:
+    print('The logo is fake.')
+else:
+    print('The logo is real.')
